@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Road Trip Italie Autriche</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+body { font-family: Arial; margin: 20px; line-height:1.5; }
+#map { height: 500px; margin-top: 20px; }
+
+.marker {
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  line-height: 22px;
+}
+
+.blue { background: #3498db; }
+.green { background: #2ecc71; }
+.yellow { background: #f1c40f; color:black; }
+
+table { border-collapse: collapse; margin-top:10px;}
+td, th { padding:8px; border:1px solid #ccc;}
+</style>
+</head>
+
+<body>
+
+<h2>🏔️ Road Trip Italie + Autriche – 8 jours</h2>
+
+<p><b>Concept :</b> Road trip jeune, low-cost, bivouac + randos + lever/coucher de soleil + 3 nuits hôtel pour douche et linge.</p>
+
+<hr>
+
+<h3>📍 Jour 1 – Paris → Dolomites</h3>
+<ul>
+<li>🚗 10–11h de route (~1050 km)</li>
+<li>🌅 Coucher : Passo Tre Croci</li>
+<li>🟢 Bivouac : parking discret montagne</li>
+<li>🍴 Repas : pique-nique</li>
+</ul>
+
+<h3>📍 Jour 2 – Tre Cime di Lavaredo</h3>
+<ul>
+<li>🔵 Parking : Rifugio Auronzo (~30€)</li>
+<li>🥾 Rando : boucle 3–4h</li>
+<li>🌄 Lever : sentier Tre Cime</li>
+<li>🌅 Coucher : Rifugio Locatelli</li>
+<li>🟢 Bivouac ou 🟡 Hôtel Cortina (~60€)</li>
+</ul>
+
+<h3>📍 Jour 3 – Seceda / Ortisei</h3>
+<ul>
+<li>🔵 Parking : Ortisei</li>
+<li>🚠 Téléphérique : ~15€</li>
+<li>🥾 Rando : 2–3h crêtes</li>
+<li>🌄 Lever : sommet Seceda</li>
+<li>🌅 Coucher : alpages</li>
+<li>🟢 Bivouac ou 🟡 hôtel</li>
+</ul>
+
+<h3>📍 Jour 4 – Dolomites → Autriche</h3>
+<ul>
+<li>🚗 3–4h route</li>
+<li>🔵 Parking : Gosausee</li>
+<li>🌅 Coucher : lac (reflet glacier)</li>
+<li>🟢 Bivouac ou 🟡 hôtel (~50€)</li>
+</ul>
+
+<h3>📍 Jour 5 – Gosausee</h3>
+<ul>
+<li>🥾 Rando : tour du lac (~3h)</li>
+<li>🌄 Lever : ponton lac</li>
+<li>🌅 Coucher : montagne</li>
+<li>🟢 Bivouac forêt</li>
+</ul>
+
+<h3>📍 Jour 6 – Tyrol / lacs</h3>
+<ul>
+<li>🔵 Parking : Zeller See / Hallstatt</li>
+<li>🥾 Rando : 3–4h</li>
+<li>🌄🌅 Lever & coucher : bord lac</li>
+<li>🟡 Hôtel (~55€)</li>
+</ul>
+
+<h3>📍 Jour 7 – Lago di Carezza</h3>
+<ul>
+<li>🚗 3h route</li>
+<li>🔵 Parking : ~5€</li>
+<li>🥾 Balade : 1h</li>
+<li>🌅 Coucher : reflet montagne</li>
+<li>🟢 Bivouac</li>
+</ul>
+
+<h3>📍 Jour 8 – Retour Paris</h3>
+<ul>
+<li>🚗 10h route</li>
+</ul>
+
+<hr>
+
+<h3>💰 Budget total (2 personnes)</h3>
+
+<table>
+<tr><th>Poste</th><th>Coût</th></tr>
+<tr><td>Transport</td><td>440€</td></tr>
+<tr><td>Hôtels (3 nuits)</td><td>160–180€</td></tr>
+<tr><td>Téléphériques</td><td>40€</td></tr>
+<tr><td>Nourriture</td><td>400€</td></tr>
+<tr><td><b>Total</b></td><td><b>~1050€</b></td></tr>
+</table>
+
+<hr>
+
+<h3>🗺️ Carte du road trip</h3>
+<div id="map"></div>
+
+<script>
+var map = L.map('map').setView([46.5, 12.5], 6);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+function icon(color, number){
+  return L.divIcon({
+    html: '<div class="marker '+color+'">'+number+'</div>'
+  });
+}
+
+var points = [
+  ["Paris départ", 48.8566, 2.3522, "blue"],
+  ["Bivouac Dolomites", 46.552, 12.146, "green"],
+  ["Tre Cime parking", 46.634, 12.266, "blue"],
+  ["Hôtel Cortina", 46.540, 12.135, "yellow"],
+  ["Seceda parking", 46.566, 11.738, "blue"],
+  ["Bivouac Seceda", 46.567, 11.740, "green"],
+  ["Gosausee parking", 47.482, 13.538, "blue"],
+  ["Bivouac Gosausee", 47.480, 13.535, "green"],
+  ["Hôtel Autriche", 47.473, 13.520, "yellow"],
+  ["Lago Carezza parking", 46.513, 11.638, "blue"],
+  ["Bivouac Carezza", 46.512, 11.636, "green"],
+  ["Retour Paris", 48.8566, 2.3522, "blue"]
+];
+
+points.forEach(function(p, i){
+  L.marker([p[1], p[2]], {icon: icon(p[3], i+1)})
+    .addTo(map)
+    .bindPopup("<b>"+p[0]+"</b><br>Étape "+(i+1));
+});
+</script>
+
+<p>
+🔵 Parking / départ rando<br>
+🟢 Bivouac<br>
+🟡 Hôtel
+</p>
+
+</body>
+</html>
