@@ -36,6 +36,48 @@ td, th { padding:8px; border:1px solid #ccc;}
 
 <p><b>Concept :</b> Road trip jeune, low-cost, bivouac + randos + lever/coucher de soleil + 3 nuits hôtel pour douche et linge.</p>
 
+<h3>🗺️ Carte du road trip</h3>
+<div id="map"></div>
+
+<script>
+var map = L.map('map').setView([46.5, 12.5], 6);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+function icon(color, number){
+  return L.divIcon({
+    html: '<div class="marker '+color+'">'+number+'</div>'
+  });
+}
+
+var points = [
+  ["Paris départ", 48.8566, 2.3522, "blue"],
+  ["Bivouac Dolomites", 46.552, 12.146, "green"],
+  ["Tre Cime parking", 46.634, 12.266, "blue"],
+  ["Hôtel Cortina", 46.540, 12.135, "yellow"],
+  ["Seceda parking", 46.566, 11.738, "blue"],
+  ["Bivouac Seceda", 46.567, 11.740, "green"],
+  ["Gosausee parking", 47.482, 13.538, "blue"],
+  ["Bivouac Gosausee", 47.480, 13.535, "green"],
+  ["Hôtel Autriche", 47.473, 13.520, "yellow"],
+  ["Lago Carezza parking", 46.513, 11.638, "blue"],
+  ["Bivouac Carezza", 46.512, 11.636, "green"],
+  ["Retour Paris", 48.8566, 2.3522, "blue"]
+];
+
+points.forEach(function(p, i){
+  L.marker([p[1], p[2]], {icon: icon(p[3], i+1)})
+    .addTo(map)
+    .bindPopup("<b>"+p[0]+"</b><br>Étape "+(i+1));
+});
+</script>
+
+<p>
+🔵 Parking / départ rando<br>
+🟢 Bivouac<br>
+🟡 Hôtel
+</p>
+  
 <hr>
 
 <h3>📍 Jour 1 – Paris → Dolomites</h3>
@@ -118,47 +160,7 @@ td, th { padding:8px; border:1px solid #ccc;}
 
 <hr>
 
-<h3>🗺️ Carte du road trip</h3>
-<div id="map"></div>
 
-<script>
-var map = L.map('map').setView([46.5, 12.5], 6);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-function icon(color, number){
-  return L.divIcon({
-    html: '<div class="marker '+color+'">'+number+'</div>'
-  });
-}
-
-var points = [
-  ["Paris départ", 48.8566, 2.3522, "blue"],
-  ["Bivouac Dolomites", 46.552, 12.146, "green"],
-  ["Tre Cime parking", 46.634, 12.266, "blue"],
-  ["Hôtel Cortina", 46.540, 12.135, "yellow"],
-  ["Seceda parking", 46.566, 11.738, "blue"],
-  ["Bivouac Seceda", 46.567, 11.740, "green"],
-  ["Gosausee parking", 47.482, 13.538, "blue"],
-  ["Bivouac Gosausee", 47.480, 13.535, "green"],
-  ["Hôtel Autriche", 47.473, 13.520, "yellow"],
-  ["Lago Carezza parking", 46.513, 11.638, "blue"],
-  ["Bivouac Carezza", 46.512, 11.636, "green"],
-  ["Retour Paris", 48.8566, 2.3522, "blue"]
-];
-
-points.forEach(function(p, i){
-  L.marker([p[1], p[2]], {icon: icon(p[3], i+1)})
-    .addTo(map)
-    .bindPopup("<b>"+p[0]+"</b><br>Étape "+(i+1));
-});
-</script>
-
-<p>
-🔵 Parking / départ rando<br>
-🟢 Bivouac<br>
-🟡 Hôtel
-</p>
 
 </body>
 </html>
